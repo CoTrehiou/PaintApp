@@ -2,16 +2,15 @@ package com.example.uqac.paintapp;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.view.MotionEvent;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.util.TypedValue;
 
 /**
@@ -29,7 +28,7 @@ public class DrawingView extends View {
     //canvas
     private Canvas drawCanvas;
     //canvas bitmap
-    private Bitmap canvasBitmap;
+    private Bitmap canvasBitmap, imageBitmap;
 
     private float brushSize, lastBrushSize;
     private boolean erase=false;
@@ -52,18 +51,20 @@ public class DrawingView extends View {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
-    }
+        imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.lapin);
+        }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {//view given size
         super.onSizeChanged(w, h, oldw, oldh);
-        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+
+        canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,w, h,true);
         drawCanvas = new Canvas(canvasBitmap);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-//draw view
+//draw viewx
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, drawPaint);
     }
