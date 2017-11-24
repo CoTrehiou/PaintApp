@@ -150,7 +150,7 @@ public class DrawingView extends View {
 
         canvasBitmap.recycle();
         imageBitmap.recycle();
-        imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image1);
+        imageBitmap = BitmapFactory.decodeResource(getResources(),idImage);
         canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,canvasBitmap.getWidth(), canvasBitmap.getHeight(),true);
         drawCanvas = new Canvas(canvasBitmap);
 
@@ -159,11 +159,15 @@ public class DrawingView extends View {
     }
 
     public void startPrevious() {
-        if (imageCount >= 0) {
+        if (imageCount > 0) {
             imageCount--;
+            String nameImage = new String("image" + imageCount);
+            Log.e("IMAGE COUNT", nameImage);
+            int idImage = getResources().getIdentifier(nameImage, "drawable", "com.example.uqac.paintapp");
+
             canvasBitmap.recycle();
             imageBitmap.recycle();
-            imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image0);
+            imageBitmap = BitmapFactory.decodeResource(getResources(), idImage);
             canvasBitmap = Bitmap.createScaledBitmap(imageBitmap, canvasBitmap.getWidth(), canvasBitmap.getHeight(), true);
             drawCanvas = new Canvas(canvasBitmap);
             invalidate();

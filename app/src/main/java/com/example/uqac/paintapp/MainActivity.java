@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawBtn = (ImageButton)findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
 
-        drawView.setBrushSize(mediumBrush);
+        drawView.setBrushSize(smallBrush);
 
         eraseBtn = (ImageButton)findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
@@ -199,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             else if (view.getId()==R.id.next_btn) {
                 //next button
-                Log.e("PASSAGE", "entree dans le bouton");
                 AlertDialog.Builder nextDialog = new AlertDialog.Builder(this);
                 nextDialog.setTitle("Image Suivante");
                 nextDialog.setMessage("Start new drawing (you will lose the current drawing)?");
@@ -219,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             else if (view.getId()==R.id.previous_btn) {
                 //next button
-                Log.e("PASSAGE", "entree dans le bouton");
                 AlertDialog.Builder nextDialog = new AlertDialog.Builder(this);
                 nextDialog.setTitle("Image Suivante");
                 nextDialog.setMessage("Start new drawing (you will lose the current drawing)?");
