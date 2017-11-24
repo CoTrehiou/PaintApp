@@ -2,6 +2,7 @@ package com.example.uqac.paintapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private DrawingView drawView;
     private float smallBrush, mediumBrush, largeBrush;
-    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, nextBtn, prevBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+        nextBtn = (ImageButton)findViewById(R.id.next_btn);
+        nextBtn.setOnClickListener(this);
+
+        prevBtn = (ImageButton)findViewById(R.id.previous_btn);
+        prevBtn.setOnClickListener(this);
     }
 
     public void paintClicked(View view) {
@@ -139,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         brushDialog.dismiss();
                     }
                 });
-                drawView.setErase(false);
+               // drawView.setErase(true);
                 brushDialog.show();
             }
             else if(view.getId()==R.id.new_btn){
@@ -189,6 +196,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
                 saveDialog.show();
+            }
+            else if (view.getId()==R.id.next_btn) {
+                //next button
+                Log.e("PASSAGE", "entree dans le bouton");
+                AlertDialog.Builder nextDialog = new AlertDialog.Builder(this);
+                nextDialog.setTitle("Image Suivante");
+                nextDialog.setMessage("Start new drawing (you will lose the current drawing)?");
+                nextDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which){
+
+                        drawView.startNext();
+                        dialog.dismiss();
+                    }
+                });
+                nextDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which){
+                        dialog.cancel();
+                    }
+                });
+                nextDialog.show();
+            }
+            else if (view.getId()==R.id.previous_btn) {
+                //next button
+                Log.e("PASSAGE", "entree dans le bouton");
+                AlertDialog.Builder nextDialog = new AlertDialog.Builder(this);
+                nextDialog.setTitle("Image Suivante");
+                nextDialog.setMessage("Start new drawing (you will lose the current drawing)?");
+                nextDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which){
+
+                        drawView.startPrevious();
+                        dialog.dismiss();
+                    }
+                });
+                nextDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int which){
+                        dialog.cancel();
+                    }
+                });
+                nextDialog.show();
             }
         }
 

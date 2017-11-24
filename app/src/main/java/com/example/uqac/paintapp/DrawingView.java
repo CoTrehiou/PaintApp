@@ -2,7 +2,9 @@ package com.example.uqac.paintapp;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +14,7 @@ import android.graphics.Path;
 import android.view.MotionEvent;
 import android.graphics.PorterDuff;
 import android.util.TypedValue;
+
 
 /**
  * Created by ctrehiou on 2017-11-22.
@@ -33,6 +36,7 @@ public class DrawingView extends View {
     private float brushSize, lastBrushSize;
     private boolean erase=false;
 
+    private int imageCount=0;
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -51,14 +55,14 @@ public class DrawingView extends View {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
-        imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.lapin);
+        imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image0);
         }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {//view given size
         super.onSizeChanged(w, h, oldw, oldh);
 
-        canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,w, h,true);
+        canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,w, h, false);
         drawCanvas = new Canvas(canvasBitmap);
     }
 
@@ -119,18 +123,50 @@ public class DrawingView extends View {
     public void setErase(boolean isErase){
 //set erase true or false
         erase=isErase;
-        if(erase)
+        if(erase) {
+            //canvasBitmap.eraseColor(paintColor);
             this.setColor("#FFFFFFFF");
-        //drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+           //drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SCREEN));
+        }
+
         else
-         drawPaint.setColor(paintColor); //if erase is set to false, it will use the previous color.
-        // drawPaint.setXfermode(null);
+          drawPaint.setColor(paintColor);
+        //drawPaint.setXfermode(null);
     }
 
-    public void startNew(){
+
+    public void startNew(){//reinitialisation de l'image
         canvasBitmap.recycle();
         canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,canvasBitmap.getWidth(), canvasBitmap.getHeight(),true);
         drawCanvas = new Canvas(canvasBitmap);
         invalidate();
+    }
+
+    public void startNext() {
+        imageCount++;
+        String nameImage = new String("image"+imageCount);
+        Log.e("IMAGE COUNT", nameImage);
+        int idImage = getResources().getIdentifier(nameImage , "drawable", "com.example.uqac.paintapp");
+
+        canvasBitmap.recycle();
+        imageBitmap.recycle();
+        imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image1);
+        canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,canvasBitmap.getWidth(), canvasBitmap.getHeight(),true);
+        drawCanvas = new Canvas(canvasBitmap);
+
+
+        invalidate();
+    }
+
+    public void startPrevious() {
+        if (imageCount >= 0) {
+            imageCount--;
+            canvasBitmap.recycle();
+            imageBitmap.recycle();
+            imageBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image0);
+            canvasBitmap = Bitmap.createScaledBitmap(imageBitmap, canvasBitmap.getWidth(), canvasBitmap.getHeight(), true);
+            drawCanvas = new Canvas(canvasBitmap);
+            invalidate();
+        }
     }
 }
