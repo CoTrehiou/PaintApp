@@ -128,7 +128,9 @@ public class DrawingView extends View {
     }
 
     public void startNew(){
-        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        canvasBitmap.recycle();
+        canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,canvasBitmap.getWidth(), canvasBitmap.getHeight(),true);
+        drawCanvas = new Canvas(canvasBitmap);
         invalidate();
     }
 }
