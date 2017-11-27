@@ -3,6 +3,7 @@ package com.example.uqac.paintapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.view.View.OnClickListener;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -18,11 +20,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawingView drawView;
     private float smallBrush, mediumBrush, largeBrush;
     private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+    public static String dessin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
         drawView = (DrawingView)findViewById(R.id.drawing);
         LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawBtn = (ImageButton)findViewById(R.id.draw_btn);
         drawBtn.setOnClickListener(this);
 
-        drawView.setBrushSize(mediumBrush);
+        drawView.setBrushSize(smallBrush);
 
         eraseBtn = (ImageButton)findViewById(R.id.erase_btn);
         eraseBtn.setOnClickListener(this);
@@ -46,6 +52,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
+
+
+
+        //spiner dessin selection
+        Spinner s = (Spinner) findViewById(R.id.spin);
+
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,int position,long id){
+                dessin=parent.getSelectedItem().toString();
+                Toast.makeText(MainActivity.this,parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+
+                drawView.nouvelImage(dessin);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
     }
 
     public void paintClicked(View view) {
@@ -192,4 +221,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
+    public static String getDessin() {
+            return dessin;
     }
+
+
+}

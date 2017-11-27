@@ -3,6 +3,7 @@ package com.example.uqac.paintapp;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,7 +52,10 @@ public class DrawingView extends View {
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
-        imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.lapin);
+
+
+            imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.blanc);
+
         }
 
     @Override
@@ -128,7 +132,22 @@ public class DrawingView extends View {
     }
 
     public void startNew(){
-        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        canvasBitmap.recycle();
+        canvasBitmap = Bitmap.createScaledBitmap(imageBitmap,canvasBitmap.getWidth(), canvasBitmap.getHeight(),true);
+        drawCanvas = new Canvas(canvasBitmap);
+        invalidate();
+    }
+
+    public void nouvelImage(String dessin) {
+
+        int idImage =getResources().getIdentifier(dessin,"drawable","com.example.uqac.paintapp");
+
+        Log.e("NAME PASSED", dessin);
+        canvasBitmap.recycle();
+        imageBitmap.recycle();
+        imageBitmap=BitmapFactory.decodeResource(getResources(),idImage);
+        canvasBitmap=Bitmap.createScaledBitmap(imageBitmap,canvasBitmap.getWidth(),canvasBitmap.getHeight(),true);
+        drawCanvas=new Canvas(canvasBitmap);
         invalidate();
     }
 }

@@ -9,4 +9,16 @@
     <string name="sml">Small</string>
     <string name="med">Medium</string>
     <string name="lrg">Large</string>
+    
+    // spinner
+    <string-array name="Dessins">
+        <item>blanc</item>
+        <item>lapin</item>
+        <item>mouton</item>
+        <item>ballon</item>
+        <item>pikachu</item>
+        <item>hamtaro</item>
+        <item>mickey</item>
+        <item>ourson</item>
+    </string-array>
 </resources>
