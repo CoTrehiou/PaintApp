@@ -13,12 +13,12 @@
         android:layout_gravity="center"
         android:orientation="horizontal" >
 
-        <ImageButton
-            android:id="@+id/previous_btn"
+        <Spinner
+            android:id="@+id/spin"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:contentDescription="@string/previous"
-            android:src="@drawable/precedent" />
+            android:entries="@array/Dessins"/>
+
 
         <ImageButton
             android:id="@+id/new_btn"
@@ -47,13 +47,6 @@
             android:layout_height="fill_parent"
             android:contentDescription="@string/save"
             android:src="@drawable/image_save" />
-
-        <ImageButton
-            android:id="@+id/next_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:contentDescription="@string/next"
-            android:src="@drawable/suivant" />
 
 
     </LinearLayout>

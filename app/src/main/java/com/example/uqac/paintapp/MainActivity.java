@@ -1,24 +1,27 @@
 package com.example.uqac.paintapp;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import java.util.UUID;
-import android.provider.MediaStore;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.UUID;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private DrawingView drawView;
     private float smallBrush, mediumBrush, largeBrush;
-    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn, nextBtn, prevBtn;
+    private ImageButton currPaint, drawBtn, eraseBtn, newBtn, saveBtn;
+    public static String dessin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +51,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveBtn = (ImageButton)findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(this);
 
-        nextBtn = (ImageButton)findViewById(R.id.next_btn);
-        nextBtn.setOnClickListener(this);
 
-        prevBtn = (ImageButton)findViewById(R.id.previous_btn);
-        prevBtn.setOnClickListener(this);
+
+        //spiner dessin selection
+        Spinner s = (Spinner) findViewById(R.id.spin);
+
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,int position,long id){
+                dessin=parent.getSelectedItem().toString();
+                Toast.makeText(MainActivity.this,parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+
+                drawView.nouvelImage(dessin);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+
+        });
+
+
+
     }
 
     public void paintClicked(View view) {
@@ -146,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         brushDialog.dismiss();
                     }
                 });
-               // drawView.setErase(true);
+                drawView.setErase(false);
                 brushDialog.show();
             }
             else if(view.getId()==R.id.new_btn){
@@ -174,9 +193,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int which){
                         drawView.setDrawingCacheEnabled(true);
-                        String imgSaved = MediaStore.Images.Media.insertImage(
+                            String imgSaved = MediaStore.Images.Media.insertImage(
                                 getContentResolver(), drawView.getDrawingCache(),
                                 UUID.randomUUID().toString()+".png", "drawing");
+
                         if(imgSaved!=null){
                             Toast savedToast = Toast.makeText(getApplicationContext(),
                                     "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
@@ -197,44 +217,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 saveDialog.show();
             }
-            else if (view.getId()==R.id.next_btn) {
-                //next button
-                AlertDialog.Builder nextDialog = new AlertDialog.Builder(this);
-                nextDialog.setTitle("Image Suivante");
-                nextDialog.setMessage("Start new drawing (you will lose the current drawing)?");
-                nextDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int which){
+        }
+        /* SAVE PERMISSION INUTILE SI SDK VERSION < 23
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("PERMISSION","Permission is granted");
+                return true;
+            } else {
 
-                        drawView.startNext();
-                        dialog.dismiss();
-                    }
-                });
-                nextDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int which){
-                        dialog.cancel();
-                    }
-                });
-                nextDialog.show();
-            }
-            else if (view.getId()==R.id.previous_btn) {
-                //next button
-                AlertDialog.Builder nextDialog = new AlertDialog.Builder(this);
-                nextDialog.setTitle("Image Suivante");
-                nextDialog.setMessage("Start new drawing (you will lose the current drawing)?");
-                nextDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int which){
-
-                        drawView.startPrevious();
-                        dialog.dismiss();
-                    }
-                });
-                nextDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int which){
-                        dialog.cancel();
-                    }
-                });
-                nextDialog.show();
+                Log.v("PERMISSION","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
             }
         }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("PERMISSION","Permission is granted");
+            return true;
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.v("PERMISSION","Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+        }
+    }
+
+*/
+    public static String getDessin() {
+            return dessin;
 
     }
+
+
+}
