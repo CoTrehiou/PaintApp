@@ -1,5 +1,14 @@
 package com.example.uqac.paintapp;
 
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import java.util.UUID;
+import android.provider.MediaStore;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -8,9 +17,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
         drawView = (DrawingView)findViewById(R.id.drawing);
         LinearLayout paintLayout = (LinearLayout)findViewById(R.id.paint_colors);
@@ -64,10 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 drawView.nouvelImage(dessin);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-            }
 
+            }
         });
 
 
@@ -217,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 saveDialog.show();
             }
+
         }
         /* SAVE PERMISSION INUTILE SI SDK VERSION < 23
     public  boolean isStoragePermissionGranted() {
@@ -245,13 +256,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
             Log.v("PERMISSION","Permission: "+permissions[0]+ "was "+grantResults[0]);
             //resume tasks needing this permission
+=======
+>>>>>>> 5ea26c044738d38504740f1c8b3c13040ae3f5e6
         }
     }
 
 */
     public static String getDessin() {
             return dessin;
-
     }
 
 

@@ -1,17 +1,19 @@
 package com.example.uqac.paintapp;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
+
+
 /**
  * Created by ctrehiou on 2017-11-22.
  */
@@ -52,7 +54,9 @@ public class DrawingView extends View {
         canvasPaint = new Paint(Paint.DITHER_FLAG);
 
 
+
         imageBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.blanc);
+
 
         }
 

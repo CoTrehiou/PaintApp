@@ -19,6 +19,12 @@
             android:layout_height="fill_parent"
             android:entries="@array/Dessins"/>
 
+        <ImageButton
+            android:id="@+id/previous_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:entries="@array/Dessins"/>
+
 
         <ImageButton
             android:id="@+id/new_btn"
